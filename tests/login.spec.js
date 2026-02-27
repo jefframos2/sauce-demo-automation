@@ -6,5 +6,8 @@ test('Login with valid credentials', async ({ page }) => {
   await page.locator('[data-test="password"]').fill('secret_sauce');
   await page.locator('[data-test="login-button"]').click();
   await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
-  await expect(page.getByText('Swag Labs')).toBeVisible();
+  await expect(
+    page.locator('[data-test="primary-header"] .app_logo'),
+  ).toHaveText('Swag Labs');
+  await expect(page.locator('[data-test="title"]')).toHaveText('Products');
 });
