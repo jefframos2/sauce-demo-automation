@@ -11,3 +11,13 @@ test('Login with valid credentials', async ({ page }) => {
   ).toHaveText('Swag Labs');
   await expect(page.locator('[data-test="title"]')).toHaveText('Products');
 });
+
+test('Login with invalid credentials', async ({ page }) => {
+  await page.goto('https://www.saucedemo.com/');
+  await page.locator('[data-test="username"]').fill('test');
+  await page.locator('[data-test="password"]').fill('test123');
+  await page.locator('[data-test="login-button"]').click();
+  await expect(page.locator('[data-test="error"]')).toHaveText(
+    'Epic sadface: Username and password do not match any user in this service',
+  );
+});
