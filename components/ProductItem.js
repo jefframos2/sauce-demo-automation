@@ -38,8 +38,13 @@ export class ProductItem {
   }
 
   async getImage() {
-    const baseUrl = new URL(this.page.url()).origin;
-    return `${baseUrl}${await this.imageLocator.getAttribute('src')}`;
+    const src = await this.imageLocator.getAttribute('src');
+
+    if (!src) {
+      throw new Error('Product image src attribute is missing');
+    }
+
+    return new URL(src, this.page.url()).href;
   }
 
   async getPrice() {
