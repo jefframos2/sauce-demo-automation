@@ -15,6 +15,9 @@ export class PrimaryHeader {
   }
 
   async getNumCartItems() {
-    return await this.cartBadgeLocator.innerText();
+    if ((await this.cartBadgeLocator.count()) === 0) {
+      return 0;
+    }
+    return Number.parseInt(await this.cartBadgeLocator.innerText(), 10);
   }
 }
