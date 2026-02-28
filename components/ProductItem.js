@@ -38,7 +38,7 @@ export class ProductItem {
   }
 
   async getImage() {
-    const baseUrl = 'https://www.saucedemo.com';
+    const baseUrl = new URL(this.page.url()).origin;
     return `${baseUrl}${await this.imageLocator.getAttribute('src')}`;
   }
 
