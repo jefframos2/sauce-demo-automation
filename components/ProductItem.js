@@ -12,7 +12,7 @@ export class ProductItem {
     this.nameLocator = this.container.locator(
       '[data-test="inventory-item-name"]',
     );
-    this.descripLocator = this.container.locator(
+    this.descriptionLocator = this.container.locator(
       '[data-test="inventory-item-desc"]',
     );
     this.imageLocator = this.container.locator('img.inventory_item_img');
@@ -34,16 +34,18 @@ export class ProductItem {
   }
 
   async getDescription() {
-    return await this.descripLocator.innerText();
+    return await this.descriptionLocator.innerText();
   }
 
   async getImage() {
     const src = await this.imageLocator.getAttribute('src');
 
+    // handle missing src attribute
     if (!src) {
       throw new Error('Product image src attribute is missing');
     }
 
+    // handle absolute src
     return new URL(src, this.page.url()).href;
   }
 
