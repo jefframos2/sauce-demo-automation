@@ -1,3 +1,5 @@
+import { expect } from '@playwright/test';
+
 export class SidePanel {
   constructor(page) {
     this.page = page;
@@ -10,16 +12,18 @@ export class SidePanel {
   }
 
   async waitUntilOpen() {
-    await this.container.waitFor({ state: 'visible' });
+    await expect(this.container).toBeInViewport();
   }
 
   async isMenuOpen() {
-    return await this.container.isVisible();
+    const ariaHidden = await this.container.getAttribute('aria-hidden');
+    return ariaHidden === 'false';
   }
 
   async closeMenu() {
     if (await this.isMenuOpen()) {
       await this.closeBtn.click();
+      await expect(this.container).not.toBeInViewport();
     }
   }
 
