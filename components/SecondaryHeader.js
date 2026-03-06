@@ -9,6 +9,7 @@ export class SecondaryHeader {
     this.productSortContainer = this.container.locator(
       '[data-test="product-sort-container"]',
     );
+    this.inventoryPage = new InventoryPage(this.page);
   }
 
   async sortBy(option) {
@@ -16,8 +17,7 @@ export class SecondaryHeader {
   }
 
   async getAllProductNames() {
-    const inventoryPage = new InventoryPage(this.page);
-    const items = await inventoryPage.getAllProducts();
+    const items = await this.inventoryPage.getAllProducts();
     const names = items.map((item) => item.name);
 
     return names;
@@ -42,8 +42,7 @@ export class SecondaryHeader {
   }
 
   async getAllProductPrices() {
-    const inventoryPage = new InventoryPage(this.page);
-    const items = await inventoryPage.getAllProducts();
+    const items = await this.inventoryPage.getAllProducts();
     const prices = items.map((item) => item.price);
 
     return prices;

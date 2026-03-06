@@ -1,14 +1,20 @@
 export class ProductItem {
-  constructor(page, itemName) {
+  constructor(page, itemNameOrLocator) {
     this.page = page;
-    this.container = page
-      .locator('[data-test="inventory-item"]')
-      .filter({
-        has: page.locator('[data-test="inventory-item-name"]'),
-      })
-      .filter({
-        hasText: itemName,
-      });
+
+    if (typeof itemNameOrLocator === 'string') {
+      this.container = page
+        .locator('[data-test="inventory-item"]')
+        .filter({
+          has: page.locator('[data-test="inventory-item-name"]'),
+        })
+        .filter({
+          hasText: itemNameOrLocator,
+        });
+    } else {
+      this.container = itemNameOrLocator;
+    }
+
     this.nameLocator = this.container.locator(
       '[data-test="inventory-item-name"]',
     );

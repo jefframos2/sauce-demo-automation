@@ -6,8 +6,8 @@ export class InventoryPage {
     this.inventoryList = page.locator('[data-test="inventory-list"]');
   }
 
-  getProduct(itemName) {
-    return new ProductItem(this.page, itemName);
+  getProduct(itemNameOrLocator) {
+    return new ProductItem(this.page, itemNameOrLocator);
   }
 
   async getAllProducts() {
@@ -17,12 +17,17 @@ export class InventoryPage {
     const items = [];
 
     for (const itemLocator of itemsLocator) {
-      const itemName = await itemLocator
-        .locator('[data-test="inventory-item-name"]')
-        .innerText();
-      const productItem = this.getProduct(itemName);
-      const price = await productItem.getPrice();
-      const priceNumber = parseFloat(price.replace('$', ''));
+      const productItem = this.getProduct(itemLocator);
+      const itemName = await productItem.getName();
+      const priceText = await productItem.getPrice();
+      const priceNumber = parseFloat(priceText.replace('$', ''));
+
+      if (isNaN(priceNumber)) {
+        throw new Error(
+          `Failed to parse price for product: ${itemName}, raw value: "${priceText}"`,
+        );
+      }
+
       const description = await productItem.getDescription();
 
       items.push({
