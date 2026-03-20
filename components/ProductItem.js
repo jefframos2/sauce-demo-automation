@@ -1,9 +1,9 @@
 export class ProductItem {
-  constructor(page, itemNameOrLocator) {
+  constructor(page, itemNameOrLocator, scope = page) {
     this.page = page;
 
     if (typeof itemNameOrLocator === 'string') {
-      this.container = page
+      this.container = scope
         .locator('[data-test="inventory-item"]')
         .filter({
           has: page.locator('[data-test="inventory-item-name"]'),

@@ -7,7 +7,7 @@ export class ItemList {
   }
 
   getProduct(itemNameOrLocator) {
-    return new ProductItem(this.page, itemNameOrLocator);
+    return new ProductItem(this.page, itemNameOrLocator, this.locator);
   }
 
   async getAllProducts() {
