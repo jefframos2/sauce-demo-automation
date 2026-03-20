@@ -33,6 +33,9 @@ export class ProductItem {
       name: 'Remove',
       exact: true,
     });
+    this.quantityLocator = this.container.locator(
+      '[data-test="item-quantity"]',
+    );
   }
 
   async getName() {
