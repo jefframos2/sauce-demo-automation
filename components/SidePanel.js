@@ -7,7 +7,7 @@ export class SidePanel {
     this.closeBtn = this.container.getByRole('button', { name: 'Close Menu' });
   }
 
-  getLink(name) {
+  #getLink(name) {
     return this.container.locator(`[data-test="${name}-sidebar-link"]`);
   }
 
@@ -28,18 +28,18 @@ export class SidePanel {
   }
 
   async logout() {
-    await this.getLink('logout').click();
+    await this.#getLink('logout').click();
   }
 
   async goToAllItems() {
-    await this.getLink('inventory').click();
+    await this.#getLink('inventory').click();
   }
 
   async goToAbout() {
-    await this.getLink('about').click();
+    await this.#getLink('about').click();
   }
 
   async resetAppState() {
-    await this.getLink('reset').click();
+    await this.#getLink('reset').click();
   }
 }

@@ -1,23 +1,63 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/index';
+import { URLS } from '../constants/urls';
+import { USERS } from '../constants/users';
+import { ERROR_MESSAGES } from '../constants/messages';
+import { APP_LABELS, PAGE_TITLES } from '../constants/labels';
 
-test('Login with valid credentials', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.locator('[data-test="username"]').fill('standard_user');
-  await page.locator('[data-test="password"]').fill('secret_sauce');
-  await page.locator('[data-test="login-button"]').click();
-  await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
-  await expect(
-    page.locator('[data-test="primary-header"] .app_logo'),
-  ).toHaveText('Swag Labs');
-  await expect(page.locator('[data-test="title"]')).toHaveText('Products');
+test.describe('Login', () => {
+  test('should redirect to inventory page when logging in with valid credentials', async ({
+    page,
+    loginPage,
+    primaryHeader,
+    secondaryHeader,
+  }) => {
+    await loginPage.goTo();
+
+    await loginPage.login(USERS.STANDARD);
+
+    await expect(page).toHaveURL(URLS.INVENTORY);
+
+    await expect(primaryHeader.headerTitle).toHaveText(APP_LABELS.HEADER);
+    await expect(secondaryHeader.pagTitle).toHaveText(PAGE_TITLES.INVENTORY);
+  });
+
+  test('should show error when logging in with invalid credentials', async ({
+    loginPage,
+  }) => {
+    await loginPage.goTo();
+
+    await loginPage.login(USERS.INVALID);
+    await expect(loginPage.errorMessage).toHaveText(
+      ERROR_MESSAGES.INVALID_CREDENTIALS,
+    );
+  });
+
+  test('should show error when logging in with locked out user', async ({
+    loginPage,
+  }) => {
+    await loginPage.goTo();
+
+    await loginPage.login(USERS.LOCKED_OUT);
+    await expect(loginPage.errorMessage).toHaveText(
+      ERROR_MESSAGES.LOCKED_OUT_USER,
+    );
+  });
 });
 
-test('Login with invalid credentials', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
-  await page.locator('[data-test="username"]').fill('test');
-  await page.locator('[data-test="password"]').fill('test123');
-  await page.locator('[data-test="login-button"]').click();
-  await expect(page.locator('[data-test="error"]')).toHaveText(
-    'Epic sadface: Username and password do not match any user in this service',
-  );
+test.describe('Logout', () => {
+  test('should redirect to login page after logging out', async ({
+    page,
+    loginPage,
+    primaryHeader,
+    sidePanel,
+  }) => {
+    await loginPage.goTo();
+
+    await loginPage.login(USERS.STANDARD);
+    await primaryHeader.openMenu();
+    await sidePanel.logout();
+
+    await expect(page).toHaveURL(URLS.LOGIN);
+    await expect(loginPage.loginPageLogo).toHaveText(APP_LABELS.HEADER);
+  });
 });
