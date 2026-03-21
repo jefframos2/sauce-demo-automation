@@ -27,7 +27,7 @@ export class LoginPage {
   }
 
   async getLoginPageLogo() {
-    return this.getLoginPageLogo.innerText();
+    return this.loginPageLogo.innerText();
   }
 
   async login({ username, password }) {
