@@ -1,3 +1,5 @@
+import { URLS } from '../constants/urls';
+
 export class LoginPage {
   constructor(page) {
     this.page = page;
@@ -27,21 +29,13 @@ export class LoginPage {
   }
 
   async goTo() {
-    await this.page.goto('https://www.saucedemo.com/');
-  }
-
-  async getLoginPageLogo() {
-    return this.loginPageLogo.innerText();
+    await this.page.goto(URLS.LOGIN);
   }
 
   async login({ username, password }) {
     await this.usernameField.fill(username);
     await this.passwordField.fill(password);
     await this.loginButton.click();
-  }
-
-  async getErrorMessage() {
-    return await this.errorMessage.innerText();
   }
 
   async clearErrorMessage() {

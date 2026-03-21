@@ -2,6 +2,7 @@ import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { PrimaryHeader } from '../components/PrimaryHeader';
 import { SecondaryHeader } from '../components/SecondaryHeader';
+import { SidePanel } from '../components/SidePanel';
 
 export const test = base.extend({
   loginPage: async ({ page }, use) => {
@@ -14,6 +15,10 @@ export const test = base.extend({
 
   secondaryHeader: async ({ page }, use) => {
     await use(new SecondaryHeader(page));
+  },
+
+  sidePanel: async ({ page }, use) => {
+    await use(new SidePanel(page));
   },
 });
 
