@@ -20,13 +20,15 @@ export class ItemList {
       const productItem = this.getProduct(itemLocator);
       const itemName = await productItem.getName();
       const priceText = await productItem.getPrice();
-      const priceNumber = parseFloat(priceText.replace('$', ''));
+      const match = /^\$(\d+(?:\.\d{2})?)$/.exec(priceText.trim());
 
-      if (isNaN(priceNumber)) {
+      if (!match) {
         throw new Error(
           `Failed to parse price for product: ${itemName}, raw value: "${priceText}"`,
         );
       }
+
+      const priceNumber = Number(match[1]);
 
       const description = await productItem.getDescription();
 

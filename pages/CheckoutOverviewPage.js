@@ -58,7 +58,6 @@ export class CheckoutOverviewPage extends ItemList {
 
   async computeCartTotalBeforeTax() {
     const cartItems = await this.getAllProducts();
-    console.log('cartItems:', cartItems);
     let total = 0;
 
     for (const cartItem of cartItems) {
