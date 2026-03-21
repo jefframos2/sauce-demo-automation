@@ -3,7 +3,7 @@ export const APP_LABELS = {
 };
 
 export const MENU_LABELS = {
-  ALL_ITEM: 'All Items',
+  ALL_ITEMS: 'All Items',
 };
 
 export const PAGE_TITLES = {
