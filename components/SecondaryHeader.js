@@ -5,7 +5,7 @@ export class SecondaryHeader {
   constructor(page) {
     this.page = page;
     this.container = page.locator('[data-test="secondary-header"]');
-    this.title = this.container.locator('[data-test="title"]');
+    this.pagTitle = this.container.locator('[data-test="title"]');
     this.productSortContainer = this.container.locator(
       '[data-test="product-sort-container"]',
     );
@@ -16,7 +16,7 @@ export class SecondaryHeader {
     await this.productSortContainer.selectOption({ label: option });
   }
 
-  async getAllProductNames() {
+  async #getAllProductNames() {
     const items = await this.inventoryPage.getAllProducts();
     const names = items.map((item) => item.name);
 
@@ -26,7 +26,7 @@ export class SecondaryHeader {
   async sortByNameAsc() {
     await this.sortBy('Name (A to Z)');
 
-    const names = await this.getAllProductNames();
+    const names = await this.#getAllProductNames();
     const sortedNames = [...names].sort();
 
     expect(names).toEqual(sortedNames);
@@ -35,13 +35,13 @@ export class SecondaryHeader {
   async sortByNameDesc() {
     await this.sortBy('Name (Z to A)');
 
-    const names = await this.getAllProductNames();
+    const names = await this.#getAllProductNames();
     const sortedNames = [...names].sort().reverse();
 
     expect(names).toEqual(sortedNames);
   }
 
-  async getAllProductPrices() {
+  async #getAllProductPrices() {
     const items = await this.inventoryPage.getAllProducts();
     const prices = items.map((item) => item.price);
 
@@ -51,7 +51,7 @@ export class SecondaryHeader {
   async sortByPriceAsc() {
     await this.sortBy('Price (low to high)');
 
-    const prices = await this.getAllProductPrices();
+    const prices = await this.#getAllProductPrices();
     const sortedPrices = [...prices].sort((a, b) => a - b);
 
     expect(prices).toEqual(sortedPrices);
@@ -60,7 +60,7 @@ export class SecondaryHeader {
   async sortByPriceDesc() {
     await this.sortBy('Price (high to low)');
 
-    const prices = await this.getAllProductPrices();
+    const prices = await this.#getAllProductPrices();
     const sortedPrices = [...prices].sort((a, b) => b - a);
 
     expect(prices).toEqual(sortedPrices);

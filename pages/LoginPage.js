@@ -26,6 +26,10 @@ export class LoginPage {
     );
   }
 
+  async goTo() {
+    await this.page.goto('https://www.saucedemo.com/');
+  }
+
   async getLoginPageLogo() {
     return this.loginPageLogo.innerText();
   }

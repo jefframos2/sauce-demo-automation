@@ -5,6 +5,7 @@ export class PrimaryHeader {
     this.page = page;
     this.container = page.locator('[data-test="primary-header"]');
     this.menuBtn = this.container.getByRole('button', { name: 'Open Menu' });
+    this.headerTitle = this.container.locator('.app_logo');
     this.cartLocator = this.container.locator(
       '[data-test="shopping-cart-link"]',
     );
